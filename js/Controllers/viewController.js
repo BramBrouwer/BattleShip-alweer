@@ -9,6 +9,26 @@ function ViewController() {
     var self = this;
     var alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
+    self.test = function () {
+        //-------------- Listeners/Utility (for visually showing ships in the setuptable)
+        //Setup Cell listeners
+        $(".setuptd").hover(function () {
+            var td = $(this);
+            self.onHover(td);
+        });
+
+        $(".setuptd").mouseleave(function () {
+            var td = $(this);
+            self.onMouseLeave(td);
+        });
+
+        $(".setuptd").click(function () {
+            var td = $(this);
+            mainController.shipController.onMouseClick(td);
+        });
+    }
+
+
     /*
     Draw buttons and update list for setupscreen
     */
@@ -18,16 +38,19 @@ function ViewController() {
         //update buttons
         $("#alertWrapper").hide();
         $("#homeScreenButtons").hide();
+        $("#gamelist").empty();
+        $("#alliedTable").empty();
         $("#setupScreenButtons").show();
         $("#setupScreenButtons").show();
         $("#orientationButton").text(currentOr);
-        $("#gamelist").empty();
 
         //show ships
         mainController.shipController.updateShipList(ships, game);
 
         //show gameField
         self.drawSetupField();
+        //TODO rename, remodel, make sure listeners are only created once 
+        self.test();
     }
 
     /*
@@ -36,21 +59,83 @@ function ViewController() {
     self.drawHomeScreen = function () {
         mainController.shipController.clearPlacedShips();
         $("#alertWrapper").hide();
+        $("#gameScreenButtons").hide();
         $("#setupScreenButtons").hide();
-        $("#homeScreenButtons").show();
+        $("#alliedTable").empty();
         $("#setupTable").empty();
+        $("#homeScreenButtons").show();
         $("#refresh").trigger("click");
     }
 
     /*
     Draw the game screen
     */
-    self.drawGameScreen = function(){
-        //Retrieve the allies board, retrieve the enemies board
-        //Draw both boards
-        //draw ships on boards 
-        //Set all occupied cells states
+    self.drawGameScreen = function (game) {
+        $("#alliedTable").empty();
+        $("#gamelist").empty();
+        $("#alertWrapper").hide();
+        $("#homeScreenButtons").hide();
+        $("#gameScreenButtons").show();
         
+        self.drawAlliedField(game);
+        //TODO set cells to be occupied
+        //draw enemy table
+
+
+    }
+
+    /*
+Draw allied gamefield
+ */
+    self.drawAlliedField = function (game) {
+
+        var ships = game.myGameboard.ships;
+        //draw table
+        table = $("#alliedTable");
+        for (outer = 1; outer < 11; outer++) {
+            {
+                var row = $('<tr>');  //create 10 rows
+                for (inner = 0; inner < 10; inner++) {
+                    var cell = $('<td>'); //add 10 td's
+                    cell.attr("id", alpha[inner] + outer);
+                    cell.data("field", new FieldCell(alpha[inner], outer, "free"));
+                    cell.addClass("alliedtd");
+                    row.append(cell);
+                }
+                table.append(row);
+            }
+        }
+
+        for (c = 0; c < 5; c++) {
+            self.drawAlliedShip(ships[c]);
+        }
+        //set ships
+        //TODO draw ships, copy utility methods from on hover so you dont have to redo the logic
+
+    };
+    /*
+    draw ship in allied field
+    */
+    self.drawAlliedShip = function (ship) {
+        //which orientation?
+        console.log(ship.length);
+        if (ship.isVertical) {
+
+            //colour the cells (if not occupied or outside field)
+            for (var i = 0; i < ship.length; i++) {
+                var curCell = $("#" + ship.startCell.x + (ship.startCell.y + i));
+                curCell.css("background-color", "Cyan");
+
+            }
+        } else {
+            //get alpha index of x
+            var xIndex = self.getAlphaIndex(ship.startCell.x);
+            for (var i = 0; i < ship.length; i++) {
+                var curCell = $("#" + alpha[xIndex + i] + (ship.startCell.y));
+                curCell.css("background-color", "Cyan");
+                1
+            }
+        }
     }
 
 
@@ -73,52 +158,11 @@ function ViewController() {
                 table.append(row);
             }
         }
-
-        /*
-  TODO : Draw allied gamefield
-         */
-        self.drawAlliedField = function () {
-
-            //draw table
-            table = $("#alliedTable");
-            for (outer = 1; outer < 11; outer++) {
-                {
-                    var row = $('<tr>');  //create 10 rows
-                    for (inner = 0; inner < 10; inner++) {
-                        var cell = $('<td>'); //add 10 td's
-                        cell.attr("id", alpha[inner] + outer);
-                        cell.data("field", new FieldCell(alpha[inner], outer, "free"));
-                        cell.addClass("alliedtd");
-                        row.append(cell);
-                    }
-                    table.append(row);
-                }
-            }
-            
-            //set ships
-            
-
-
-
-        };
-
-        //-------------- Listeners/Utility (for visually showing ships in the setuptable)
-        //Setup Cell listeners
-        $(".setuptd").hover(function () {
-            var td = $(this);
-            self.onHover(td);
-        });
-
-        $(".setuptd").mouseleave(function () {
-            var td = $(this);
-            self.onMouseLeave(td);
-        });
-
-        $(".setuptd").click(function () {
-            var td = $(this);
-            mainController.shipController.onMouseClick(td);
-        });
     }
+
+
+
+
 
 
     /*

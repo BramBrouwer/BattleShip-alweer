@@ -2,12 +2,14 @@
 //!! onlick etc nit allemaal in deze document ready, sommige dingen zoals tablecells worden later pas gegenereerd (reden dat je global shit ook niet werkte?)
 //TODO new model for fieldcell especially for setup field?
 //NICE TO HAVE update ship lsit after placing a ship
-//TODO replace ugly alerts with a bootstrap message displaing errors/succes/etc
-//working in viewcalss to setup showerror/succes methods updating the alert 
+//TODO aan het einde nog ff alles doorlopen en kijken welke code schonr kan
+//of er dingen dubbel worden gedaan in viewcontroller, of ze beter verdeeld kunnen worden in andere klassen, etc
+
 var baseurl = "https://zeeslagavans.herokuapp.com/";
 var accesstoken = "?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImIuYnJvdXdlckBzdHVkZW50LmF2YW5zLm5sIg.Je0wnMvxSEHa1v_NJCGjivIBJ4OrOujaWKcHjsStSa8";
 var mainController = new MainController();
 mainController.initialize();
+
 
 
 
@@ -35,6 +37,10 @@ $(document).ready(function () {
 
     $("#backButton").click(function () {
         mainController.shipController.clearPlacedShips();
+        mainController.viewController.drawHomeScreen();
+    });
+    
+     $("#gs_backButton").click(function () {
         mainController.viewController.drawHomeScreen();
     });
 

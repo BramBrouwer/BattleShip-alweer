@@ -84,14 +84,15 @@ function ApiController() {
 Elke gebruiker heeft een collectie van games. Voor elke game kun je alle informatie opvragen doormiddel van het Id. 
 Het is alleen mogelijk gegevens op te halen van een game waar je zelf aan deel neemt.
 */
-    self.getGameByID = function (input) {
-
-        var id = input;
+    self.getGameByID = function (id) {
         $.ajax({
             url: baseurl + "games/" + id + accesstoken,
             success: function (result) {
-                console.log(result);
+
+               mainController.viewController.drawGameScreen(result);
+               
             }, error: function (error) {
+               
                 console.log(error.responseText);
             }
         });
