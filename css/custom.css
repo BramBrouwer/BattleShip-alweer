@@ -1,0 +1,60 @@
+
+
+
+/*Text shown when setting up a game*/
+.setupText{
+    margin-top: 5px;
+}
+
+/*Buttons in header*/
+.buttonText{
+    font-weight: bold;
+    color: black;
+}
+
+/*Sidebar*/
+.sidebarHeader{
+    font-weight: bold;
+    color: grey;
+}
+
+.divider{
+     border-top: 1px solid grey !important;
+  border-bottom: 1px solid grey !important;    
+}
+
+
+/*Table*/
+.setupTable{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+   
+background-color: #ffffff;
+    border: 1px solid blue;
+
+}
+
+.setuptd{
+background-color: #ffffff;
+    border: 1px solid blue;
+    width: 50px;
+    height: 50px;
+}
+
+.setuptd:hover{
+    
+}
+
+.alliedtd{
+    background-color: #ffffff;
+    border: 1px solid blue;
+    width: 50px;
+    height: 50px;
+}
+
+
+/*Alert wrapper*/
+#alertWrapper{
+    padding-top: 10px;
+}
