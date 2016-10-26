@@ -77,7 +77,10 @@ function ShipController(input) {
         self.addPlacedShip(data);
 
     }
-
+    
+    /*
+    Add a placed ship to the list of ships if it fits/doesnt collide/hasnt been placed yet
+    */
     self.addPlacedShip = function (cell) {
 
         //Check if shiplist is full 
@@ -109,7 +112,9 @@ function ShipController(input) {
     }
 
 
-
+    /*
+    Post list of placed ships to api(Controller)
+    */
     self.postShips = function () {
 
         if (placedShips.length != 5) {
@@ -125,9 +130,7 @@ function ShipController(input) {
     //---------------Utility
 
     self.checkCollision = function (cell) {
-        //i know this looks bad but it needs to be performed before placing the ship
-        //if we check it while placing and we find out the 3rd cell overlaps
-        //the first 2 cells will still be coloured otherwise
+        
         if (orientation == "vertical") {
             for (var i = 0; i < selectedShip.length; i++) {
 

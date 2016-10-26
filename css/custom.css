@@ -53,8 +53,24 @@ background-color: #ffffff;
     height: 50px;
 }
 
+.enemytd{
+    background-color: #ffffff;
+    border: 1px solid red;
+    width: 50px;
+    height: 50px;
+}
 
 /*Alert wrapper*/
 #alertWrapper{
     padding-top: 10px;
+}
+
+#versusSymbol{
+    width: 50%;
+    height: 50%;
+    padding-top: 100%;
+     display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
 }

@@ -61,7 +61,9 @@ function ViewController() {
         $("#alertWrapper").hide();
         $("#gameScreenButtons").hide();
         $("#setupScreenButtons").hide();
+        $("#versusSymbol").hide();
         $("#alliedTable").empty();
+        $("#enemyTable").empty();
         $("#setupTable").empty();
         $("#homeScreenButtons").show();
         $("#refresh").trigger("click");
@@ -76,13 +78,40 @@ function ViewController() {
         $("#alertWrapper").hide();
         $("#homeScreenButtons").hide();
         $("#gameScreenButtons").show();
-        
+        $("#versusSymbol").show();
         self.drawAlliedField(game);
+        self.drawEnemyField(game);
         //TODO set cells to be occupied
         //draw enemy table
 
 
     }
+
+    /*
+    Draw enemy gamefield
+    */
+
+    self.drawEnemyField = function (game) {
+
+        console.log(game);
+        //draw table
+        table = $("#enemyTable");
+        for (outer = 1; outer < 11; outer++) {
+            {
+                var row = $('<tr>');  //create 10 rows
+                for (inner = 0; inner < 10; inner++) {
+                    var cell = $('<td>'); //add 10 td's
+                    cell.attr("id", alpha[inner] + outer);
+                    cell.data("field", new FieldCell(alpha[inner], outer, "free"));
+                    cell.addClass("enemytd");
+                    row.append(cell);
+                }
+                table.append(row);
+            }
+        }
+
+
+    };
 
     /*
 Draw allied gamefield
@@ -109,23 +138,23 @@ Draw allied gamefield
         for (c = 0; c < 5; c++) {
             self.drawAlliedShip(ships[c]);
         }
-        //set ships
-        //TODO draw ships, copy utility methods from on hover so you dont have to redo the logic
+
 
     };
+
     /*
     draw ship in allied field
     */
     self.drawAlliedShip = function (ship) {
-        //which orientation?
-        console.log(ship.length);
+
         if (ship.isVertical) {
 
             //colour the cells (if not occupied or outside field)
             for (var i = 0; i < ship.length; i++) {
                 var curCell = $("#" + ship.startCell.x + (ship.startCell.y + i));
                 curCell.css("background-color", "Cyan");
-
+                var data = curCell.data('field');
+                data.state = "occupied";
             }
         } else {
             //get alpha index of x
@@ -133,7 +162,8 @@ Draw allied gamefield
             for (var i = 0; i < ship.length; i++) {
                 var curCell = $("#" + alpha[xIndex + i] + (ship.startCell.y));
                 curCell.css("background-color", "Cyan");
-                1
+                var data = curCell.data('field');
+                data.state = "occupied";
             }
         }
     }
