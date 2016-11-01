@@ -3,8 +3,10 @@
 //TODO new model for fieldcell especially for setup field?
 //NICE TO HAVE update ship lsit after placing a ship
 //TODO aan het einde nog ff alles doorlopen en kijken welke code schonr kan
+//wss door een boardcontroller ofzo toe te voegen
 //of er dingen dubbel worden gedaan in viewcontroller, of ze beter verdeeld kunnen worden in andere klassen, etc
-
+//problemen met lisrteners kan je oplossen door listeners te initializen in methodes van de controllers zelf. 
+//Check alle listeners en iniialize ze op de juiste plek met hulp methods
 var baseurl = "https://zeeslagavans.herokuapp.com/";
 var accesstoken = "?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImIuYnJvdXdlckBzdHVkZW50LmF2YW5zLm5sIg.Je0wnMvxSEHa1v_NJCGjivIBJ4OrOujaWKcHjsStSa8";
 var mainController = new MainController();
@@ -22,8 +24,8 @@ $(document).ready(function () {
     });
 
     $("#refresh").click(function () {
-         mainController.viewController.showSuccess("Games loaded.");
         mainController.apiController.getUserGames();
+        mainController.viewController.showInfo("Games loaded.");
     });
 
     $("#deleteGames").click(function () {
@@ -39,9 +41,13 @@ $(document).ready(function () {
         mainController.shipController.clearPlacedShips();
         mainController.viewController.drawHomeScreen();
     });
-    
-     $("#gs_backButton").click(function () {
+
+    $("#gs_backButton").click(function () {
         mainController.viewController.drawHomeScreen();
+    });
+
+    $("#gs_confirmButton").click(function () {
+        mainController.boardController.postShot();
     });
 
 
@@ -62,10 +68,11 @@ $(document).ready(function () {
     $("#confirmButton").click(function () {
         mainController.shipController.postShips();
     });
-    
-      $("#continueButton").click(function () {
+
+    $("#continueButton").click(function () {
         mainController.viewController.drawHomeScreen();
     });
+
 
 
 

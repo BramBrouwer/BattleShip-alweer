@@ -6,7 +6,6 @@ function GameController() {
       Update list to show games 
        */
     self.updateGameList = function (games) {
-
         $("#gamelist").empty();//empty list 
 
         //Add list header and divider

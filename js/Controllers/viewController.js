@@ -9,7 +9,7 @@ function ViewController() {
     var self = this;
     var alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
-    self.test = function () {
+    self.setupListeners = function () {
         //-------------- Listeners/Utility (for visually showing ships in the setuptable)
         //Setup Cell listeners
         $(".setuptd").hover(function () {
@@ -28,12 +28,26 @@ function ViewController() {
         });
     }
 
+    //add click listener to enemytd cells for placing shots
+    self.gameListeners = function (yourTurn) {
+        $(".enemytd").click(function () {
+            var td = $(this);
+            mainController.boardController.enemytdClick(td,yourTurn);
+        });
+
+        $(".enemytd").hover(function () {
+            var td = $(this);
+            mainController.boardController.enemytdHover(td,yourTurn);
+        });
+        
+        
+    };
+
 
     /*
     Draw buttons and update list for setupscreen
     */
     self.drawSetup = function (ships, game) {
-
         var currentOr = mainController.shipController.getOrientation();
         //update buttons
         $("#alertWrapper").hide();
@@ -49,8 +63,9 @@ function ViewController() {
 
         //show gameField
         self.drawSetupField();
+        self.showInfo("Ready for setup");
         //TODO rename, remodel, make sure listeners are only created once 
-        self.test();
+        self.setupListeners();
     }
 
     /*
@@ -59,6 +74,8 @@ function ViewController() {
     self.drawHomeScreen = function () {
         mainController.shipController.clearPlacedShips();
         $("#alertWrapper").hide();
+        $("#placeButton").hide();
+        $("#infoButton").show();
         $("#gameScreenButtons").hide();
         $("#setupScreenButtons").hide();
         $("#versusSymbol").hide();
@@ -73,17 +90,22 @@ function ViewController() {
     Draw the game screen
     */
     self.drawGameScreen = function (game) {
+       
         $("#alliedTable").empty();
         $("#gamelist").empty();
         $("#alertWrapper").hide();
         $("#homeScreenButtons").hide();
         $("#gameScreenButtons").show();
         $("#versusSymbol").show();
+        
         self.drawAlliedField(game);
         self.drawEnemyField(game);
-        //TODO set cells to be occupied
-        //draw enemy table
-
+        self.gameListeners(game.yourTurn);
+           console.log(game._id);
+         mainController.boardController.setCurrentGame(game._id);
+        if(!game.yourTurn){
+            mainController.boardController.notYourTurn();
+        }
 
     }
 
@@ -93,7 +115,6 @@ function ViewController() {
 
     self.drawEnemyField = function (game) {
 
-        console.log(game);
         //draw table
         table = $("#enemyTable");
         for (outer = 1; outer < 11; outer++) {
@@ -101,8 +122,8 @@ function ViewController() {
                 var row = $('<tr>');  //create 10 rows
                 for (inner = 0; inner < 10; inner++) {
                     var cell = $('<td>'); //add 10 td's
-                    cell.attr("id", alpha[inner] + outer);
-                    cell.data("field", new FieldCell(alpha[inner], outer, "free"));
+                    cell.attr("id", "e_"+alpha[inner] + outer);
+                    cell.data("field", new FieldCell(alpha[inner], outer, "untouched"));
                     cell.addClass("enemytd");
                     row.append(cell);
                 }

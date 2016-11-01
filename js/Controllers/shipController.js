@@ -193,7 +193,7 @@ function ShipController(input) {
     }
 
 
-
+    
     self.getAlphaIndex = function (x) {
         //get alpha index of x
         var xIndex = 0;
@@ -205,7 +205,7 @@ function ShipController(input) {
             }
         }
     }
-
+    
     self.getOrientation = function () {
         return orientation;
     }

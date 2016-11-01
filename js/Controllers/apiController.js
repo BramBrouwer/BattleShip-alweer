@@ -89,14 +89,36 @@ Het is alleen mogelijk gegevens op te halen van een game waar je zelf aan deel n
             url: baseurl + "games/" + id + accesstoken,
             success: function (result) {
 
-               mainController.viewController.drawGameScreen(result);
-               
+                mainController.viewController.drawGameScreen(result);
+
             }, error: function (error) {
-               
+
                 console.log(error.responseText);
             }
         });
     }
+
+    self.postShot = function (gameID, x, y) {
+        //TODO check waaarom deze shit BOOM/splash enzo in de error returned
+        //terwijl in de api staat dat als er iets fout gaat FAIL word gereturned
+      
+        $.ajax({
+            url: baseurl + "games/" + gameID + "/shots" + accesstoken,
+            success: function (result) {
+               mainController.boardController.shotFired(result,x,y);
+            }, error: function (error) {
+               mainController.boardController.shotFired(error,x,y);
+            },
+            type: 'POST',
+            data: {
+                "x" : x,
+                "y" : y
+            },
+            dataType: 'json'
+        });
+
+    }
+
 
     /*
     -----------------------END Games--------------------
@@ -122,9 +144,9 @@ Het is alleen mogelijk gegevens op te halen van een game waar je zelf aan deel n
 
 
     /*
-  in de fase 'setup' moet je een gameboard naar de server posten. Indien je de eerste speler bent die een gameboard post, zal de fase van de game in 'setup' blijven. 
-  Indien beide spelers een gameboard hebben gepost, zal de status van de game veranderen naar 'started'. (Als je tegen een AI speelt veranderd de status altijd meteen naar started).
- */
+    in de fase 'setup' moet je een gameboard naar de server posten. Indien je de eerste speler bent die een gameboard post, zal de fase van de game in 'setup' blijven. 
+    Indien beide spelers een gameboard hebben gepost, zal de status van de game veranderen naar 'started'. (Als je tegen een AI speelt veranderd de status altijd meteen naar started).
+    */
     //get game ID and check if ships object is correct for posting
     self.postGameboard = function (inputID, inputBoard) {
         $.ajax({

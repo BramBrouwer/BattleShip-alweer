@@ -10,6 +10,7 @@ function MainController()
 	this.shipController = new ShipController();
 	this.viewController = new ViewController();
 	this.apiController = new ApiController();
+	this.boardController = new BoardController();
 	this.initialize = function()
 	{
 		self.apiController.getUserGames();

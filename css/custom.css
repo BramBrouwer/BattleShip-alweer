@@ -12,6 +12,11 @@
     color: black;
 }
 
+#infoButton{
+    background-color: darkgrey;
+    border-color: darkgrey;
+}
+
 /*Sidebar*/
 .sidebarHeader{
     font-weight: bold;
@@ -63,6 +68,7 @@ background-color: #ffffff;
 /*Alert wrapper*/
 #alertWrapper{
     padding-top: 10px;
+    padding-bottom: -20px
 }
 
 #versusSymbol{

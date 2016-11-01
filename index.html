@@ -26,6 +26,7 @@
 
     <!--Custom JS-->
     <script src="js/prototypes.js"></script>
+    <script src="js/Controllers/boardController.js"></script>
     <script src="js/Controllers/shipController.js"></script>
     <script src="js/Controllers/gameController.js"></script>
     <script src="js/Controllers/viewController.js"></script>
@@ -53,10 +54,13 @@
 
                     <!--header buttons  -->
                     <div id="homeScreenButtons" class="col-lg-12">
-                        <a href="#" id="newAIGame" class="buttonText col-md-3 btn btn-info">New AI game</a>
-                        <a href="# " id="newGame" class="buttonText col-md-3 btn btn-success ">New game</a>
-                        <a href="# " id="refresh" class="buttonText col-md-3 btn btn-warning ">Refresh</a>
-                        <a href="# " id="deleteGames" class="buttonText col-md-3 btn btn-danger ">Empty list</a>
+                        <a href="#" id="newAIGame" class="buttonText col-md-2 btn btn-info">New AI game</a>
+                        <div class="col-md-1"></div>
+                        <a href="# " id="newGame" class="buttonText col-md-2 btn btn-success ">New game</a>
+                        <div class="col-md-1"></div>
+                        <a href="# " id="refresh" class="buttonText col-md-2 btn btn-warning ">Refresh</a>
+                        <div class="col-md-1"></div>
+                        <a href="# " id="deleteGames" class="buttonText col-md-2 btn btn-danger ">Empty list</a>
                     </div>
 
                     <div id="setupScreenButtons" style="display: none" class="col-lg-12 ">
@@ -68,10 +72,16 @@
                         <a id="confirmButton" href="# " class="buttonText col-md-2 btn btn-info">confirm</a>
                         <a id="continueButton" style="display: none" href="# " class="buttonText col-md-2 btn btn-success">continue</a>
                     </div>
-                    
+
                     <div id="gameScreenButtons" style="display: none" class="col-lg-12">
-                         <div class="col-md-2 "></div>
+                        <div class="col-md-2 "></div>
                         <a id="gs_backButton" href="# " class="buttonText col-md-2 btn btn-danger ">back</a>
+                        <div class="col-md-1"></div>
+                        <a id="infoButton" href="# " class="buttonText col-md-2 btn btn-danger ">select a cell to place shot</a>
+                        <a id="placeButton" style="display: none" href="# " class="buttonText col-md-2 btn btn-success">place shot</a>
+                        <div class="col-md-1"></div>
+                        <a id="gs_confirmButton" style="display: none" href="# " class="buttonText col-md-2 btn btn-success">Confirm</a>
+
                     </div>
                     <!--/# header buttons-->
 
@@ -79,7 +89,7 @@
                     <div id="alertWrapper" style="display: none" class="col-lg-12 alertWrapper">
                         <div class="col-lg-12"></div>
                         <div class="col-md-3"></div>
-                        <div id="alert" class="alert col-md-6">
+                        <div id="alert" class="alert col-md-5">
                         </div>
                     </div>
                     <!--/# Alert div-->
