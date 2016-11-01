@@ -3,8 +3,13 @@ function BoardController() {
     var self = this;
     var selectedTarget;
     var gameId;
+    var au_boom = new Audio('audio/explosion.wav');
+    var au_splash = new Audio('audio/splash.wav');
 
 
+    /*
+    Update buttons on enemytd hover
+    */
     self.enemytdHover = function (td, yourTurn) {
         var data = td.data('field');
         if (!yourTurn) {
@@ -15,6 +20,9 @@ function BoardController() {
 
     }
 
+    /*
+    Lock in cell for shot posting
+    */
     self.enemytdClick = function (td, yourTurn) {
         var data = td.data('field');
         if (!yourTurn) {
@@ -23,11 +31,15 @@ function BoardController() {
         }
         var shotvalid = true;
         if (shotvalid) {
+            $("#gs_confirmButton").text("Confirm : " + data.x + "," + data.y)
             self.showConfirmButton();
             selectedTarget = data;
         }
     }
 
+    /*
+    If possible, post shot to API
+     */
     self.postShot = function () {
 
         $("#gs_confirmButton").hide();
@@ -36,21 +48,27 @@ function BoardController() {
         mainController.apiController.postShot(gameId, x, y);
 
     }
-
+    
+    /*
+    Listen to the api's response after firing a shot
+    */
     self.shotFired = function (input, x, y) {
         var currentCell = $("#e_" + x + y);
-      console.log(input,currentCell);
+        console.log(input, currentCell);
         switch (input.responseText) {
             case "SPLASH":
-            console.log("s");
-                 currentCell.css("background-color", "Blue");
+                console.log("s");
+                currentCell.addClass("splashtd");
+                au_splash.play();
                 break;
             case "BOOM":
-            console.log("b");
-                currentCell.css("background-color", "Red");
+                console.log("b");
+                currentCell.addClass("boomtd");
+                au_boom.play();
                 break;
             case "WINNER":
-            console.log('w');
+                currentCell.addClass("boomtd");
+                mainController.viewController.drawVictory();
                 break;
             default:
             //something went wrong

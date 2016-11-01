@@ -1,12 +1,15 @@
 
 //!! onlick etc nit allemaal in deze document ready, sommige dingen zoals tablecells worden later pas gegenereerd (reden dat je global shit ook niet werkte?)
-//TODO new model for fieldcell especially for setup field?
 //NICE TO HAVE update ship lsit after placing a ship
 //TODO aan het einde nog ff alles doorlopen en kijken welke code schonr kan
 //wss door een boardcontroller ofzo toe te voegen
 //of er dingen dubbel worden gedaan in viewcontroller, of ze beter verdeeld kunnen worden in andere klassen, etc
 //problemen met lisrteners kan je oplossen door listeners te initializen in methodes van de controllers zelf. 
 //Check alle listeners en iniialize ze op de juiste plek met hulp methods
+
+//TODO
+//Show different animations/sounds on splash/boom
+//load hits on game load (use getgamefrom api)
 var baseurl = "https://zeeslagavans.herokuapp.com/";
 var accesstoken = "?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImIuYnJvdXdlckBzdHVkZW50LmF2YW5zLm5sIg.Je0wnMvxSEHa1v_NJCGjivIBJ4OrOujaWKcHjsStSa8";
 var mainController = new MainController();

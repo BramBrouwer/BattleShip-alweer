@@ -1,5 +1,3 @@
-//TODO maybe draw setuptable on start andh hide to now worrie abou tlisteners?
-
 /*
 Contains methods used for drawing tables, alerts , etc. 
 */
@@ -9,45 +7,15 @@ function ViewController() {
     var self = this;
     var alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
-    self.setupListeners = function () {
-        //-------------- Listeners/Utility (for visually showing ships in the setuptable)
-        //Setup Cell listeners
-        $(".setuptd").hover(function () {
-            var td = $(this);
-            self.onHover(td);
-        });
 
-        $(".setuptd").mouseleave(function () {
-            var td = $(this);
-            self.onMouseLeave(td);
-        });
 
-        $(".setuptd").click(function () {
-            var td = $(this);
-            mainController.shipController.onMouseClick(td);
-        });
-    }
-
-    //add click listener to enemytd cells for placing shots
-    self.gameListeners = function (yourTurn) {
-        $(".enemytd").click(function () {
-            var td = $(this);
-            mainController.boardController.enemytdClick(td,yourTurn);
-        });
-
-        $(".enemytd").hover(function () {
-            var td = $(this);
-            mainController.boardController.enemytdHover(td,yourTurn);
-        });
-        
-        
-    };
-
+    //SCREENS
 
     /*
     Draw buttons and update list for setupscreen
     */
     self.drawSetup = function (ships, game) {
+
         var currentOr = mainController.shipController.getOrientation();
         //update buttons
         $("#alertWrapper").hide();
@@ -57,7 +25,8 @@ function ViewController() {
         $("#setupScreenButtons").show();
         $("#setupScreenButtons").show();
         $("#orientationButton").text(currentOr);
-
+        $("#alertWrapper").show();
+        $("#setupWrapper").show();
         //show ships
         mainController.shipController.updateShipList(ships, game);
 
@@ -75,13 +44,16 @@ function ViewController() {
         mainController.shipController.clearPlacedShips();
         $("#alertWrapper").hide();
         $("#placeButton").hide();
-        $("#infoButton").show();
+        $("#setupWrapper").hide();
         $("#gameScreenButtons").hide();
         $("#setupScreenButtons").hide();
         $("#versusSymbol").hide();
+        $("#victoryImage").hide();
         $("#alliedTable").empty();
         $("#enemyTable").empty();
         $("#setupTable").empty();
+        // TODO ?? V
+        $("#infoButton").show();
         $("#homeScreenButtons").show();
         $("#refresh").trigger("click");
     }
@@ -90,31 +62,39 @@ function ViewController() {
     Draw the game screen
     */
     self.drawGameScreen = function (game) {
-       
+
         $("#alliedTable").empty();
         $("#gamelist").empty();
         $("#alertWrapper").hide();
+        $("#setupWrapper").hide();
         $("#homeScreenButtons").hide();
         $("#gameScreenButtons").show();
         $("#versusSymbol").show();
-        
+
         self.drawAlliedField(game);
         self.drawEnemyField(game);
         self.gameListeners(game.yourTurn);
-           console.log(game._id);
-         mainController.boardController.setCurrentGame(game._id);
-        if(!game.yourTurn){
+        self.drawEnemyfieldShots(game);
+        self.drawAlliedfieldShots(game);
+        mainController.boardController.setCurrentGame(game._id);
+        if (!game.yourTurn) {
             mainController.boardController.notYourTurn();
         }
 
     }
+
+    // END SCREENS
+
+
+
+    //TABLES
 
     /*
     Draw enemy gamefield
     */
 
     self.drawEnemyField = function (game) {
-
+        console.log(game);
         //draw table
         table = $("#enemyTable");
         for (outer = 1; outer < 11; outer++) {
@@ -122,7 +102,7 @@ function ViewController() {
                 var row = $('<tr>');  //create 10 rows
                 for (inner = 0; inner < 10; inner++) {
                     var cell = $('<td>'); //add 10 td's
-                    cell.attr("id", "e_"+alpha[inner] + outer);
+                    cell.attr("id", "e_" + alpha[inner] + outer);
                     cell.data("field", new FieldCell(alpha[inner], outer, "untouched"));
                     cell.addClass("enemytd");
                     row.append(cell);
@@ -130,9 +110,8 @@ function ViewController() {
                 table.append(row);
             }
         }
-
-
     };
+
 
     /*
 Draw allied gamefield
@@ -163,6 +142,60 @@ Draw allied gamefield
 
     };
 
+
+    /*
+ Draw battlefield for placing ships
+ */
+    self.drawSetupField = function () {
+
+        table = $("#setupTable");
+        for (outer = 1; outer < 11; outer++) {
+            {
+                var row = $('<tr>');  //create 10 rows
+                for (inner = 0; inner < 10; inner++) {
+                    var cell = $('<td>'); //add 10 td's
+                    cell.attr("id", alpha[inner] + outer);
+                    cell.data("field", new FieldCell(alpha[inner], outer, "free"));
+                    cell.addClass("setuptd");
+                    row.append(cell);
+                }
+                table.append(row);
+            }
+        }
+    };
+    //END TABLES
+
+
+    // SHOTS
+    self.drawEnemyfieldShots = function (game) {
+        var shots = game.enemyGameboard.shots;
+
+        shots.forEach(function (shot) {
+            if (shot.isHit) {
+                $("#e_" + shot.x + shot.y).addClass("boomtd");
+            } else {
+                $("#e_" + shot.x + shot.y).addClass("splashtd");
+            }
+        });
+
+
+
+    }
+
+    self.drawAlliedfieldShots = function (game) {
+        var shots = game.myGameboard.shots;
+
+        shots.forEach(function (shot) {
+            if (shot.isHit) {
+                $("#" + shot.x + shot.y).addClass("boomtd");
+            } else {
+                $("#" + shot.x + shot.y).addClass("splashtd");
+            }
+        });
+    }
+    //END SHOTS
+
+
     /*
     draw ship in allied field
     */
@@ -190,31 +223,10 @@ Draw allied gamefield
     }
 
 
-    /*
-    Draw battlefield for placing ships
-    */
-    self.drawSetupField = function () {
-
-        table = $("#setupTable");
-        for (outer = 1; outer < 11; outer++) {
-            {
-                var row = $('<tr>');  //create 10 rows
-                for (inner = 0; inner < 10; inner++) {
-                    var cell = $('<td>'); //add 10 td's
-                    cell.attr("id", alpha[inner] + outer);
-                    cell.data("field", new FieldCell(alpha[inner], outer, "free"));
-                    cell.addClass("setuptd");
-                    row.append(cell);
-                }
-                table.append(row);
-            }
-        }
-    }
 
 
 
-
-
+    //CELLS
 
     /*
     Update cells on mousehover to show currently selected ship
@@ -313,6 +325,50 @@ Draw allied gamefield
         }
     }
 
+    //END CELLS
+
+
+    //UTILITY
+    
+    self.setupListeners = function () {
+
+        $(".setuptd").hover(function () {
+            var td = $(this);
+            self.onHover(td);
+        });
+
+        $(".setuptd").mouseleave(function () {
+            var td = $(this);
+            self.onMouseLeave(td);
+        });
+
+        $(".setuptd").click(function () {
+            var td = $(this);
+            mainController.shipController.onMouseClick(td);
+        });
+    }
+
+    //add click listener to enemytd cells for placing shots
+    self.gameListeners = function (yourTurn) {
+        $(".enemytd").click(function () {
+            var td = $(this);
+            mainController.boardController.enemytdClick(td, yourTurn);
+        });
+
+        $(".enemytd").hover(function () {
+            var td = $(this);
+            mainController.boardController.enemytdHover(td, yourTurn);
+        });
+    };
+
+
+    self.drawVictory = function () {
+        var au_victory = new Audio('audio/victory.ogg');
+        au_victory.play();
+        $("#versusSymbol").hide();
+        $("#victoryImage").show();
+    }
+
     self.getAlphaIndex = function (x) {
         //get alpha index of x
         var xIndex = 0;
@@ -365,8 +421,7 @@ Draw allied gamefield
         $("#alertWrapper").show();
     }
 
-
-    //----------------END listeners/utility
+    //----------------END utility
 
 
 
