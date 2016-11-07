@@ -14,12 +14,18 @@ var baseurl = "https://zeeslagavans.herokuapp.com/";
 var accesstoken = "?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImIuYnJvdXdlckBzdHVkZW50LmF2YW5zLm5sIg.Je0wnMvxSEHa1v_NJCGjivIBJ4OrOujaWKcHjsStSa8";
 var mainController = new MainController();
 mainController.initialize();
+mainController.socketController.initialize();
+
+
+
 
 
 
 
 
 $(document).ready(function () {
+    
+
 
     ////LISTENERS
     $("#newAIGame").click(function () {

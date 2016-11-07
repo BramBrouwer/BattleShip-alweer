@@ -54,15 +54,12 @@ function BoardController() {
     */
     self.shotFired = function (input, x, y) {
         var currentCell = $("#e_" + x + y);
-        console.log(input, currentCell);
         switch (input.responseText) {
             case "SPLASH":
-                console.log("s");
                 currentCell.addClass("splashtd");
                 au_splash.play();
                 break;
             case "BOOM":
-                console.log("b");
                 currentCell.addClass("boomtd");
                 au_boom.play();
                 break;

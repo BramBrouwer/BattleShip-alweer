@@ -15,7 +15,7 @@ function ViewController() {
     Draw buttons and update list for setupscreen
     */
     self.drawSetup = function (ships, game) {
-
+        mainController.state = "SETUP";
         var currentOr = mainController.shipController.getOrientation();
         //update buttons
         $("#alertWrapper").hide();
@@ -41,6 +41,7 @@ function ViewController() {
     Draw button etc for homescreen
     */
     self.drawHomeScreen = function () {
+        mainController.state = "HOME";
         mainController.shipController.clearPlacedShips();
         $("#alertWrapper").hide();
         $("#placeButton").hide();
@@ -62,7 +63,7 @@ function ViewController() {
     Draw the game screen
     */
     self.drawGameScreen = function (game) {
-
+        mainController.state = "INGAME";
         $("#alliedTable").empty();
         $("#gamelist").empty();
         $("#alertWrapper").hide();
@@ -94,7 +95,6 @@ function ViewController() {
     */
 
     self.drawEnemyField = function (game) {
-        console.log(game);
         //draw table
         table = $("#enemyTable");
         for (outer = 1; outer < 11; outer++) {
@@ -329,7 +329,7 @@ Draw allied gamefield
 
 
     //UTILITY
-    
+
     self.setupListeners = function () {
 
         $(".setuptd").hover(function () {
