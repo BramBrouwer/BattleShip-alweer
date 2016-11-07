@@ -7,6 +7,7 @@ function BoardController() {
     var au_splash = new Audio('audio/splash.wav');
 
 
+    
     /*
     Update buttons on enemytd hover
     */
@@ -41,7 +42,7 @@ function BoardController() {
     If possible, post shot to API
      */
     self.postShot = function () {
-
+        console.log(selectedTarget);
         $("#gs_confirmButton").hide();
         var x = selectedTarget.x;
         var y = selectedTarget.y;
@@ -53,15 +54,16 @@ function BoardController() {
     Listen to the api's response after firing a shot
     */
     self.shotFired = function (input, x, y) {
+        console.log(input.responseText);
         var currentCell = $("#e_" + x + y);
         switch (input.responseText) {
             case "SPLASH":
                 currentCell.addClass("splashtd");
-                au_splash.play();
+               mainController.audioController.splash();
                 break;
             case "BOOM":
                 currentCell.addClass("boomtd");
-                au_boom.play();
+                mainController.audioController.boom();
                 break;
             case "WINNER":
                 currentCell.addClass("boomtd");
@@ -78,6 +80,9 @@ function BoardController() {
 
     self.setCurrentGame = function (input) {
         gameId = input;
+    }
+    self.getCurrentGame = function(){
+        return gameId;
     }
 
     self.showConfirmButton = function () {

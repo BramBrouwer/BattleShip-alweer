@@ -17,14 +17,13 @@ function SocketController() {
         });
 
         socket.on('shot', function (shot) {
-            console.log(shot);
+            self.onShot(shot);
             var gameId = shot.gameId // Bijvoorbeeld 10
             var user = shot.user // Bijvoorbeeld ssmulder@avans.nl
             var field = shot.field // Dit is ook weer een JSON object die de properties x en y heeft
             var result = shot.result // BOOM | SPLASH | FAIL | WINNER
         });
         socket.on('turn', function (turn) {
-            console.log(turn);
             var gameId = turn.gameId // Bijvoorbeeld 10
             var turn = turn.turn // Bijvoorbeeld ssmulder@avans.nl
         });
@@ -42,11 +41,20 @@ function SocketController() {
     }
 
     self.onShot = function (shot) {
-        if(mainController.state == "INGAME"){
-            //call a "refresh" function here that redraws the allies field, we will call this if the user is actually in a game , hoping that the shot belongs to this game, if it doesnt, no harm done
-            //orrr we can check the id and if its equal to this game tcetcetcerv
+        if (mainController.state == "INGAME") {
+
+            if (shot.user == "b.brouwer@student.avans.nl") {
+                return;
+            }
+
+            if (shot.gameId == mainController.boardController.getCurrentGame()) {
+                //TODO play relevant sound?
+                //TODO check if ai won
+                mainController.apiController.getGameByID(shot.gameId);
+            }
+
         }
+
+
     }
-
-
 }

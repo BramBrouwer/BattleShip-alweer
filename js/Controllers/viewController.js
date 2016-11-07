@@ -42,6 +42,7 @@ function ViewController() {
     */
     self.drawHomeScreen = function () {
         mainController.state = "HOME";
+        mainController.boardController.setCurrentGame(0);
         mainController.shipController.clearPlacedShips();
         $("#alertWrapper").hide();
         $("#placeButton").hide();
@@ -65,6 +66,7 @@ function ViewController() {
     self.drawGameScreen = function (game) {
         mainController.state = "INGAME";
         $("#alliedTable").empty();
+        $("#enemyTable").empty();
         $("#gamelist").empty();
         $("#alertWrapper").hide();
         $("#setupWrapper").hide();
@@ -363,8 +365,7 @@ Draw allied gamefield
 
 
     self.drawVictory = function () {
-        var au_victory = new Audio('audio/victory.ogg');
-        au_victory.play();
+        mainController.audioController.victory();
         $("#versusSymbol").hide();
         $("#victoryImage").show();
     }

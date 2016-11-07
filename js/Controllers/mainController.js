@@ -11,6 +11,7 @@ function MainController() {
 	this.apiController = new ApiController();
 	this.boardController = new BoardController();
 	this.socketController = new SocketController();
+	this.audioController = new AudioController();
 	this.initialize = function () {
 		self.apiController.getUserGames();
 
