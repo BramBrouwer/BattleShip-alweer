@@ -99,8 +99,6 @@ Het is alleen mogelijk gegevens op te halen van een game waar je zelf aan deel n
     }
 
     self.postShot = function (gameID, x, y) {
-        //TODO check waaarom deze shit BOOM/splash enzo in de error returned
-        //terwijl in de api staat dat als er iets fout gaat FAIL word gereturned
       
         $.ajax({
             url: baseurl + "games/" + gameID + "/shots" + accesstoken,

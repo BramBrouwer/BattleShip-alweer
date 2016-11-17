@@ -2,12 +2,11 @@ function BoardController() {
 
     var self = this;
     var selectedTarget;
-    var gameId;
+    var game;
     var au_boom = new Audio('audio/explosion.wav');
     var au_splash = new Audio('audio/splash.wav');
 
 
-    
     /*
     Update buttons on enemytd hover
     */
@@ -26,30 +25,32 @@ function BoardController() {
     */
     self.enemytdClick = function (td, yourTurn) {
         var data = td.data('field');
+        selectedTarget = data;
         if (!yourTurn) {
             self.notYourTurn();
             return;
         }
         var shotvalid = true;
-        if (shotvalid) {
-            $("#gs_confirmButton").text("Confirm : " + data.x + "," + data.y)
-            self.showConfirmButton();
-            selectedTarget = data;
+        if (selectedTarget.state == "touched") {
+            $("#gs_confirmButton").text("cell was shot already!");
+            return;
         }
+        $("#gs_confirmButton").text("Confirm : " + data.x + "," + data.y)
+        self.showConfirmButton();
     }
 
     /*
     If possible, post shot to API
      */
     self.postShot = function () {
-        console.log(selectedTarget);
+        selectedTarget.state = "touched";
         $("#gs_confirmButton").hide();
         var x = selectedTarget.x;
         var y = selectedTarget.y;
-        mainController.apiController.postShot(gameId, x, y);
+        mainController.apiController.postShot(game._id, x, y);
 
     }
-    
+
     /*
     Listen to the api's response after firing a shot
     */
@@ -59,7 +60,7 @@ function BoardController() {
         switch (input.responseText) {
             case "SPLASH":
                 currentCell.addClass("splashtd");
-               mainController.audioController.splash();
+                mainController.audioController.splash();
                 break;
             case "BOOM":
                 currentCell.addClass("boomtd");
@@ -67,7 +68,9 @@ function BoardController() {
                 break;
             case "WINNER":
                 currentCell.addClass("boomtd");
-                mainController.viewController.drawVictory();
+
+                mainController.viewController.showSuccess("Victory!");
+                mainController.audioController.victory();
                 break;
             default:
             //something went wrong
@@ -77,13 +80,15 @@ function BoardController() {
 
 
     //Utility methods
-
+    //Om een referentie naar de current game te hebben in de socketcontroller zodat we weten of we het veld kunnen updaten
     self.setCurrentGame = function (input) {
-        gameId = input;
+        game = input;
     }
-    self.getCurrentGame = function(){
-        return gameId;
+    self.getCurrentGame = function () {
+        return game;
     }
+
+
 
     self.showConfirmButton = function () {
         $("#gs_confirmButton").show();
@@ -107,6 +112,8 @@ function BoardController() {
         $("#infoButton").show();
         $("#infoButton").text("It's not your turn.");
     }
+
+
 
 
 

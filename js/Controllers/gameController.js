@@ -36,7 +36,6 @@ function GameController() {
                     mainController.apiController.getShips(listItem.game);
                 }
                 if(listItem.game.gameStatus == "started"){
-                    //TODO get game by ID and pass al info to draw game screen
                     mainController.apiController.getGameByID(listItem.game.gameID);
                 }
             });

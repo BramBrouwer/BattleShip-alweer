@@ -18,10 +18,6 @@ function SocketController() {
 
         socket.on('shot', function (shot) {
             self.onShot(shot);
-            var gameId = shot.gameId // Bijvoorbeeld 10
-            var user = shot.user // Bijvoorbeeld ssmulder@avans.nl
-            var field = shot.field // Dit is ook weer een JSON object die de properties x en y heeft
-            var result = shot.result // BOOM | SPLASH | FAIL | WINNER
         });
         socket.on('turn', function (turn) {
             var gameId = turn.gameId // Bijvoorbeeld 10
@@ -32,29 +28,33 @@ function SocketController() {
 
     self.onUpdate = function (update) {
         //Check if we are in the home screen, if we are we can update the gamelist
-        if (mainController.state == "HOME") {
-            mainController.apiController.getUsergames();
-            mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
-        } else {
-            mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
+        if (update.gameId != mainController.boardController.getCurrentGame()._id) {
+
+            if (mainController.state == "HOME") {
+                mainController.apiController.getUsergames();
+                mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
+            } else {
+                mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
+            }
         }
     }
 
     self.onShot = function (shot) {
         if (mainController.state == "INGAME") {
 
-            if (shot.user == "b.brouwer@student.avans.nl") {
-                return;
+            //Check if shot was placed in currently open game/not placed by the player himself 
+            if (shot.gameId == mainController.boardController.getCurrentGame()._id && shot.user != "b.brouwer@student.avans.nl") {
+
+                if (shot.result == "WINNER") {
+                    mainController.apiController.getGameByID(shot.gameId);
+                    mainController.viewController.showError("Defeat !");
+                    mainController.audioController.defeat();
+                } else {
+                    mainController.apiController.getGameByID(shot.gameId);
+                }
             }
 
-            if (shot.gameId == mainController.boardController.getCurrentGame()) {
-                //TODO play relevant sound?
-                //TODO check if ai won
-                mainController.apiController.getGameByID(shot.gameId);
-            }
 
         }
-
-
     }
 }

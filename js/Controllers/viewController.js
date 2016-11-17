@@ -33,7 +33,6 @@ function ViewController() {
         //show gameField
         self.drawSetupField();
         self.showInfo("Ready for setup");
-        //TODO rename, remodel, make sure listeners are only created once 
         self.setupListeners();
     }
 
@@ -50,11 +49,9 @@ function ViewController() {
         $("#gameScreenButtons").hide();
         $("#setupScreenButtons").hide();
         $("#versusSymbol").hide();
-        $("#victoryImage").hide();
         $("#alliedTable").empty();
         $("#enemyTable").empty();
         $("#setupTable").empty();
-        // TODO ?? V
         $("#infoButton").show();
         $("#homeScreenButtons").show();
         $("#refresh").trigger("click");
@@ -68,7 +65,6 @@ function ViewController() {
         $("#alliedTable").empty();
         $("#enemyTable").empty();
         $("#gamelist").empty();
-        $("#alertWrapper").hide();
         $("#setupWrapper").hide();
         $("#homeScreenButtons").hide();
         $("#gameScreenButtons").show();
@@ -79,7 +75,7 @@ function ViewController() {
         self.gameListeners(game.yourTurn);
         self.drawEnemyfieldShots(game);
         self.drawAlliedfieldShots(game);
-        mainController.boardController.setCurrentGame(game._id);
+        mainController.boardController.setCurrentGame(game);
         if (!game.yourTurn) {
             mainController.boardController.notYourTurn();
         }
@@ -165,37 +161,6 @@ Draw allied gamefield
             }
         }
     };
-    //END TABLES
-
-
-    // SHOTS
-    self.drawEnemyfieldShots = function (game) {
-        var shots = game.enemyGameboard.shots;
-
-        shots.forEach(function (shot) {
-            if (shot.isHit) {
-                $("#e_" + shot.x + shot.y).addClass("boomtd");
-            } else {
-                $("#e_" + shot.x + shot.y).addClass("splashtd");
-            }
-        });
-
-
-
-    }
-
-    self.drawAlliedfieldShots = function (game) {
-        var shots = game.myGameboard.shots;
-
-        shots.forEach(function (shot) {
-            if (shot.isHit) {
-                $("#" + shot.x + shot.y).addClass("boomtd");
-            } else {
-                $("#" + shot.x + shot.y).addClass("splashtd");
-            }
-        });
-    }
-    //END SHOTS
 
 
     /*
@@ -223,6 +188,43 @@ Draw allied gamefield
             }
         }
     }
+    //END TABLES
+
+
+    // SHOTS
+    self.drawEnemyfieldShots = function (game) {
+        var shots = game.enemyGameboard.shots;
+
+        shots.forEach(function (shot) {
+            if (shot.isHit) {
+                $("#e_" + shot.x + shot.y).addClass("boomtd");
+                var data = $("#e_" + shot.x + shot.y).data('field');
+                data.state = "touched";
+            } else {
+                $("#e_" + shot.x + shot.y).addClass("splashtd");
+                var data = $("#e_" + shot.x + shot.y).data('field');
+                data.state = "touched";
+            }
+        });
+
+
+
+    }
+
+    self.drawAlliedfieldShots = function (game) {
+        var shots = game.myGameboard.shots;
+
+        shots.forEach(function (shot) {
+            if (shot.isHit) {
+                $("#" + shot.x + shot.y).addClass("boomtd");
+            } else {
+                $("#" + shot.x + shot.y).addClass("splashtd");
+            }
+        });
+    }
+    //END SHOTS
+
+
 
 
 
@@ -364,11 +366,6 @@ Draw allied gamefield
     };
 
 
-    self.drawVictory = function () {
-        mainController.audioController.victory();
-        $("#versusSymbol").hide();
-        $("#victoryImage").show();
-    }
 
     self.getAlphaIndex = function (x) {
         //get alpha index of x

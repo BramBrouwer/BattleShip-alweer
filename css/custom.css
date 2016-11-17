@@ -100,3 +100,13 @@ background-color: #ffffff;
     margin-right: auto;
     padding-top: 40%;
 }
+
+/*Defeat image*/
+#defeatImage{
+     width: 100%;
+    height: 100%;
+     display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20%;
+}
