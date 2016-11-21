@@ -2,7 +2,7 @@ function BoardController() {
 
     var self = this;
     var selectedTarget;
-    var game;
+    var game = 0;
     var au_boom = new Audio('audio/explosion.wav');
     var au_splash = new Audio('audio/splash.wav');
 
@@ -14,6 +14,7 @@ function BoardController() {
         var data = td.data('field');
         if (!yourTurn) {
             self.notYourTurn();
+             console.log("Not your turn");
         } else {
             self.showPlaceShotButton(data);
         }
@@ -28,6 +29,7 @@ function BoardController() {
         selectedTarget = data;
         if (!yourTurn) {
             self.notYourTurn();
+            console.log("Not your turn");
             return;
         }
         var shotvalid = true;
@@ -55,7 +57,6 @@ function BoardController() {
     Listen to the api's response after firing a shot
     */
     self.shotFired = function (input, x, y) {
-        console.log(input.responseText);
         var currentCell = $("#e_" + x + y);
         switch (input.responseText) {
             case "SPLASH":

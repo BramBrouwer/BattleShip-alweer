@@ -19,7 +19,9 @@ function SocketController() {
         socket.on('shot', function (shot) {
             self.onShot(shot);
         });
+        //TODO implement this messaging if its your turn in a game youre not active in
         socket.on('turn', function (turn) {
+            self.onTurn(turn);
             var gameId = turn.gameId // Bijvoorbeeld 10
             var turn = turn.turn // Bijvoorbeeld ssmulder@avans.nl
         });
@@ -27,21 +29,20 @@ function SocketController() {
     }
 
     self.onUpdate = function (update) {
-        //Check if we are in the home screen, if we are we can update the gamelist
-        if (update.gameId != mainController.boardController.getCurrentGame()._id) {
-
-            if (mainController.state == "HOME") {
-                mainController.apiController.getUsergames();
-                mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
-            } else {
+        //Blijkbaar komt er geen update binnen als een ai game van setup naar started gaan (best logisch eigenlijk)
+        if (mainController.getState() == "HOME") {
+            mainController.apiController.getUserGames();
+            mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
+        } else {
+            if (update.gameId != mainController.boardController.getCurrentGame()._id) {
                 mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
             }
         }
+
     }
 
     self.onShot = function (shot) {
         if (mainController.state == "INGAME") {
-
             //Check if shot was placed in currently open game/not placed by the player himself 
             if (shot.gameId == mainController.boardController.getCurrentGame()._id && shot.user != "b.brouwer@student.avans.nl") {
 
@@ -53,7 +54,20 @@ function SocketController() {
                     mainController.apiController.getGameByID(shot.gameId);
                 }
             }
+        }
 
+        self.onTurn = function (turn) {
+            //Check if there is a current game
+            if (mainController.boardController.getCurrentGame() != 0) {
+                //is the turn update not in this current and is it not the enemies turn? then message the player regarding the turn
+                if (mainController.boardController.getCurrentGame()._id != turn.gameId && turn.turn == "b.brouwer@student.avans.nl") {
+                    console.log("meme");
+                    mainController.viewController.showInfo("It is now your turn in game : " + turn.gameId);
+                    return;
+                } 
+            } else {
+                mainController.viewController.showInfo("It is now your turn in game : " + turn.gameId);
+            }
 
         }
     }

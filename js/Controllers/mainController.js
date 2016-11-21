@@ -17,5 +17,9 @@ function MainController() {
 
 	}
 
+	self.getState = function(){
+	return state;
+	}
+
 
 }

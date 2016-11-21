@@ -19,14 +19,22 @@ function GameController() {
         $("#gamelist").append(listBrand);
         $("#gamelist").append(divider);
         var gamesfound = false;
-        
+
         $(games).each(function (index) {
+
             gamesfound = true;
             var listItem = $('<li>');
             var anchor = $('<a>');
             listItem.append(anchor);
-            anchor.text("You VS. " + this.enemyName + " - " + this.gameStatus);
+            anchor.text(this.gameID + "- You VS. " + this.enemyName + " - " + this.gameStatus);
             anchor.css("font-weight", "bold");
+
+
+            if (this.gameStatus == "done") {
+                console.log(this.gameStatus);
+                anchor.css('text-decoration', 'line-through');
+            }
+
 
             listItem.game = this;
             $("#gamelist").append(listItem);
@@ -35,7 +43,7 @@ function GameController() {
                 if (listItem.game.gameStatus == "setup") {
                     mainController.apiController.getShips(listItem.game);
                 }
-                if(listItem.game.gameStatus == "started"){
+                if (listItem.game.gameStatus == "started") {
                     mainController.apiController.getGameByID(listItem.game.gameID);
                 }
             });

@@ -15,9 +15,9 @@ function ViewController() {
     Draw buttons and update list for setupscreen
     */
     self.drawSetup = function (ships, game) {
+
         mainController.state = "SETUP";
         var currentOr = mainController.shipController.getOrientation();
-        //update buttons
         $("#alertWrapper").hide();
         $("#homeScreenButtons").hide();
         $("#gamelist").empty();
@@ -27,6 +27,7 @@ function ViewController() {
         $("#orientationButton").text(currentOr);
         $("#alertWrapper").show();
         $("#setupWrapper").show();
+
         //show ships
         mainController.shipController.updateShipList(ships, game);
 
@@ -41,6 +42,8 @@ function ViewController() {
     */
     self.drawHomeScreen = function () {
         mainController.state = "HOME";
+
+        //reset references used in board/shipController 
         mainController.boardController.setCurrentGame(0);
         mainController.shipController.clearPlacedShips();
         $("#alertWrapper").hide();
@@ -72,13 +75,10 @@ function ViewController() {
 
         self.drawAlliedField(game);
         self.drawEnemyField(game);
-        self.gameListeners(game.yourTurn);
         self.drawEnemyfieldShots(game);
         self.drawAlliedfieldShots(game);
+        self.gameListeners(game.yourTurn);
         mainController.boardController.setCurrentGame(game);
-        if (!game.yourTurn) {
-            mainController.boardController.notYourTurn();
-        }
 
     }
 
@@ -347,6 +347,7 @@ Draw allied gamefield
         });
 
         $(".setuptd").click(function () {
+            console.log("SetupCell Clicked");
             var td = $(this);
             mainController.shipController.onMouseClick(td);
         });
