@@ -1,7 +1,6 @@
 function SocketController() {
     var self = this;
-
-
+    
     self.initialize = function () {
 
         var server = 'https://zeeslagavans.herokuapp.com/';
@@ -11,7 +10,6 @@ function SocketController() {
 
         var socket = io.connect(server, options);
 
-
         socket.on('update', function (update) {
             self.onUpdate(update);
         });
@@ -19,11 +17,9 @@ function SocketController() {
         socket.on('shot', function (shot) {
             self.onShot(shot);
         });
-        //TODO implement this messaging if its your turn in a game youre not active in
+
         socket.on('turn', function (turn) {
             self.onTurn(turn);
-            var gameId = turn.gameId // Bijvoorbeeld 10
-            var turn = turn.turn // Bijvoorbeeld ssmulder@avans.nl
         });
 
     }
@@ -60,15 +56,15 @@ function SocketController() {
             //Check if there is a current game
             if (mainController.boardController.getCurrentGame() != 0) {
                 //is the turn update not in this current and is it not the enemies turn? then message the player regarding the turn
-                if (mainController.boardController.getCurrentGame()._id != turn.gameId && turn.turn == "b.brouwer@student.avans.nl") {
-                    console.log("meme");
-                    mainController.viewController.showInfo("It is now your turn in game : " + turn.gameId);
-                    return;
-                } 
-            } else {
-                mainController.viewController.showInfo("It is now your turn in game : " + turn.gameId);
-            }
+                if (mainController.boardController.getCurrentGame()._id == turn.gameId) {
+                    if (turn.turn == "b.brouwer@student.avans.nl") {
+                        mainController.viewController.showSuccess("Turn: Yours.")
+                    } else {
+                        mainController.viewController.showError("Turn: " + turn.turn);
+                    }
+                }
 
+            }
         }
     }
 }

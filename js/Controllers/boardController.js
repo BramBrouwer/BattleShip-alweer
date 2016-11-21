@@ -10,28 +10,18 @@ function BoardController() {
     /*
     Update buttons on enemytd hover
     */
-    self.enemytdHover = function (td, yourTurn) {
+    self.enemytdHover = function (td) {
         var data = td.data('field');
-        if (!yourTurn) {
-            self.notYourTurn();
-             console.log("Not your turn");
-        } else {
-            self.showPlaceShotButton(data);
-        }
-
+        self.showPlaceShotButton(data);
     }
 
     /*
     Lock in cell for shot posting
     */
-    self.enemytdClick = function (td, yourTurn) {
+    self.enemytdClick = function (td) {
         var data = td.data('field');
         selectedTarget = data;
-        if (!yourTurn) {
-            self.notYourTurn();
-            console.log("Not your turn");
-            return;
-        }
+
         var shotvalid = true;
         if (selectedTarget.state == "touched") {
             $("#gs_confirmButton").text("cell was shot already!");

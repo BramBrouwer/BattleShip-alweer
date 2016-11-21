@@ -16,14 +16,7 @@ mainController.socketController.initialize();
 
 
 
-
-
-
-
-
 $(document).ready(function () {
-    
-
 
     ////LISTENERS
     $("#newAIGame").click(function () {
@@ -32,7 +25,6 @@ $(document).ready(function () {
 
     $("#refresh").click(function () {
         mainController.apiController.getUserGames();
-        mainController.viewController.showInfo("Games loaded.");
     });
 
     $("#deleteGames").click(function () {

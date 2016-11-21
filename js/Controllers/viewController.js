@@ -77,8 +77,13 @@ function ViewController() {
         self.drawEnemyField(game);
         self.drawEnemyfieldShots(game);
         self.drawAlliedfieldShots(game);
-        self.gameListeners(game.yourTurn);
+        self.gameListeners();
         mainController.boardController.setCurrentGame(game);
+        if(game.yourTurn){
+            self.showSuccess("Turn: Yours");
+        }else{
+            self.showError("Turn: "+game.enemyName);
+        }
 
     }
 
@@ -354,15 +359,15 @@ Draw allied gamefield
     }
 
     //add click listener to enemytd cells for placing shots
-    self.gameListeners = function (yourTurn) {
+    self.gameListeners = function () {
         $(".enemytd").click(function () {
             var td = $(this);
-            mainController.boardController.enemytdClick(td, yourTurn);
+            mainController.boardController.enemytdClick(td);
         });
 
         $(".enemytd").hover(function () {
             var td = $(this);
-            mainController.boardController.enemytdHover(td, yourTurn);
+            mainController.boardController.enemytdHover(td);
         });
     };
 
