@@ -47,6 +47,7 @@ function SocketController() {
                     mainController.apiController.getGameByID(shot.gameId);
                     mainController.viewController.showError("Defeat !");
                     mainController.audioController.defeat();
+                    alert("Defeat !");
                 } else {
                     mainController.apiController.getGameByID(shot.gameId);
                 }

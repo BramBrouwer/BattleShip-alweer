@@ -61,6 +61,7 @@ function BoardController() {
                 currentCell.addClass("boomtd");
                 mainController.viewController.showSuccess("Victory!");
                 mainController.audioController.victory();
+                alert("Victory!");
                 break;
             default:
             //something went wrong
