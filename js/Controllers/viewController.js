@@ -58,6 +58,7 @@ function ViewController() {
         $("#infoButton").show();
         $("#homeScreenButtons").show();
         $("#refresh").trigger("click");
+        
     }
 
     /*

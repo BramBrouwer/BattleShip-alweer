@@ -3,6 +3,8 @@ function ApiController() {
     var games = [];
     var ships = [];
     /*
+    
+    
     -----------------------Games--------------------
     */
     /*
@@ -121,6 +123,7 @@ Het is alleen mogelijk gegevens op te halen van een game waar je zelf aan deel n
     /*
     -----------------------END Games--------------------
     */
+
 
     /*
     -----------------------Ships--------------------

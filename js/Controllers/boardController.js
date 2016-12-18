@@ -5,7 +5,7 @@ function BoardController() {
     var game = 0;
     var au_boom = new Audio('audio/explosion.wav');
     var au_splash = new Audio('audio/splash.wav');
-
+   
 
     /*
     Update buttons on enemytd hover
@@ -59,7 +59,6 @@ function BoardController() {
                 break;
             case "WINNER":
                 currentCell.addClass("boomtd");
-
                 mainController.viewController.showSuccess("Victory!");
                 mainController.audioController.victory();
                 break;
@@ -103,6 +102,8 @@ function BoardController() {
         $("#infoButton").show();
         $("#infoButton").text("It's not your turn.");
     }
+    
+  
 
 
 

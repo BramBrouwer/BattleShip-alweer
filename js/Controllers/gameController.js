@@ -1,7 +1,8 @@
 
 function GameController() {
     var self = this;
-
+   
+        
     /*
       Update list to show games 
        */
@@ -31,7 +32,6 @@ function GameController() {
 
 
             if (this.gameStatus == "done") {
-                console.log(this.gameStatus);
                 anchor.css('text-decoration', 'line-through');
             }
 
@@ -54,5 +54,7 @@ function GameController() {
         }
 
     }
+    
+    
 
 }

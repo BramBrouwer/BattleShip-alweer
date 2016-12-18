@@ -27,6 +27,7 @@ function SocketController() {
     self.onUpdate = function (update) {
         //Blijkbaar komt er geen update binnen als een ai game van setup naar started gaan (best logisch eigenlijk)
         if (mainController.getState() == "HOME") {
+            console.log( "game updated")
             mainController.apiController.getUserGames();
             mainController.viewController.showInfo("A game has just been updated : " + update.gameId + " - " + update.status);
         } else {
@@ -53,8 +54,12 @@ function SocketController() {
         }
 
         self.onTurn = function (turn) {
+            console.log(mainController.boardController.getWon());
             //Check if there is a current game
             if (mainController.boardController.getCurrentGame() != 0) {
+                if(!mainController.boardController.getWon()){
+                    return;
+                }
                 //is the turn update not in this current and is it not the enemies turn? then message the player regarding the turn
                 if (mainController.boardController.getCurrentGame()._id == turn.gameId) {
                     if (turn.turn == "b.brouwer@student.avans.nl") {
