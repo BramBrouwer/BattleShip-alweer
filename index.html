@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
     <meta charset="utf-8">
@@ -19,6 +20,10 @@
 
     <!-- jQuery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/Bootstrap/bootstrap.min.js"></script>
@@ -30,12 +35,14 @@
     <script src="js/Controllers/shipController.js"></script>
     <script src="js/Controllers/gameController.js"></script>
     <script src="js/Controllers/viewController.js"></script>
-       <script src="js/Controllers/listeners.js"></script>
+    <script src="js/Controllers/listeners.js"></script>
     <script src="js/Controllers/audioController.js"></script>
-     <script src="js/Controllers/socketController.js"></script>
+    <script src="js/Controllers/socketController.js"></script>
     <script src="js/Controllers/mainController.js"></script>
     <script src="js/Controllers/apiController.js"></script>
     <script src="js/battleshipscript.js"></script>
+
+
 
 
 
@@ -55,6 +62,7 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
+
 
                     <!--header buttons  -->
                     <div id="homeScreenButtons" class="col-lg-12">
@@ -85,8 +93,8 @@
                         <a id="placeButton" style="display: none" href="# " class="buttonText col-md-2 btn btn-info"></a>
                         <div class="col-md-1"></div>
                         <a id="gs_confirmButton" style="display: none" href="# " class="buttonText col-md-2 btn btn-success">Confirm</a>
-                         <div class="col-md-5 "></div>
-                         <a id="gs_turnbutton" style="display: none" href="# " class="buttonText col-md-2 btn btn-success">Confirm</a>
+                        <div class="col-md-5 "></div>
+                        <a id="gs_turnbutton" style="display: none" href="# " class="buttonText col-md-2 btn btn-success">Confirm</a>
                     </div>
                     <!--/# header buttons-->
 
@@ -96,32 +104,60 @@
                         <div id="alert" class="alert col-md-5">
                         </div>
                     </div>
+
+                    <div id="dialog-confirm" title="Do you want to play as the default user?">
+                        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span> User = bbrouwer5@avans.nl
+                        </p>
+                    </div>
                     <!--/# Alert div-->
 
-                    <!--Setup field-->
-                    <div id="setupWrapper" class="col-lg-12">
-                        <div class="col-md-4"></div>
-                        <table id="setupTable" class="setupTable col-md-4"></table>
-                        <div class="col-md-4"></div>
-                    </div>
-                    <!--/# Setup field-->
 
-                    <!--Game field -->
-                    <div id="gameWrapper" class="col-lg-12">
+                    <!--Choose user-->
+                    <div id="choose_user_wrapper" style="display:none" class="col-lg-12">
+                        <div class="col-md-3">
 
-                        <table id="alliedTable" class="setupTable col-md-4"></table>
-                        <div class="col-md-4">
-                            <img id="versusSymbol" src="img/photo.jpg" style="display: none">
+                            <label for="email">User email</label>
+                            <input class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </br>
+                            </br>
+                            <label for="at">Accesstoken</label>
+                            <input class="form-control" id="at" placeholder="Enter Accesstoken">
+                            <small id="emailHelp" class="form-text text-muted">We might share this. If we feel like it.</small>
+                            </br>
+                            </br>
+                            <button id="formSubmit" class="btn btn-primary">Submit</button>
+
                         </div>
-                        <table id="enemyTable" class="setupTable col-md-4"></table>
-                        <div class="col-md-1"></div>
-                    </div>
-                    <!--/Game field-->
 
+                    </div>
                 </div>
+                <!--/# Choose user-->
+
+                <!--Setup field-->
+                <div id="setupWrapper" class="col-lg-12">
+                    <div class="col-md-4"></div>
+                    <table id="setupTable" class="setupTable col-md-4"></table>
+                    <div class="col-md-4"></div>
+                </div>
+                <!--/# Setup field-->
+
+                <!--Game field -->
+                <div id="gameWrapper" class="col-lg-12">
+
+                    <table id="alliedTable" class="setupTable col-md-4"></table>
+                    <div class="col-md-4">
+                        <img id="versusSymbol" src="img/photo.jpg" style="display: none">
+                    </div>
+                    <table id="enemyTable" class="setupTable col-md-4"></table>
+                    <div class="col-md-1"></div>
+                </div>
+                <!--/Game field-->
+
             </div>
         </div>
-        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#page-content-wrapper -->
 
     </div>
 

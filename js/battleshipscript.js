@@ -11,9 +11,35 @@
 //dit trager dan de socket, dus zelfs dan wordt de game nog geupdate en opnieuw getekend
 var baseurl = "https://zeeslagavans.herokuapp.com/";
 var accesstoken = "?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImIuYnJvdXdlckBzdHVkZW50LmF2YW5zLm5sIg.Je0wnMvxSEHa1v_NJCGjivIBJ4OrOujaWKcHjsStSa8";
+var user = 'b.brouwer@student.avans.nl';
 var mainController = new MainController();
-mainController.initialize();
 mainController.socketController.initialize();
 
 
+$(document).ready(function () {
 
+    $("#dialog-confirm").dialog({
+        closeOnEscape: false,
+        resizable: false,
+        height: "auto",
+        width: 400,
+        modal: true,
+        open: function (event, ui) {
+            $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+        },
+        buttons: {
+            "Yes": function () {
+                $(this).dialog("close");
+                mainController.initialize();
+            },
+            "No": function () {
+                $(this).dialog("close");
+                mainController.viewController.drawUserChange();
+            }
+        }
+
+
+    });
+
+
+});

@@ -10,6 +10,11 @@ function ViewController() {
 
 
     //SCREENS
+    self.drawUserChange = function () {
+     $("#homeScreenButtons").hide();
+     $("#choose_user_wrapper").show();
+    }
+
 
     /*
     Draw buttons and update list for setupscreen
@@ -46,6 +51,7 @@ function ViewController() {
         //reset references used in board/shipController 
         mainController.boardController.setCurrentGame(0);
         mainController.shipController.clearPlacedShips();
+        $("#choose_user_wrapper").hide();
         $("#alertWrapper").hide();
         $("#placeButton").hide();
         $("#setupWrapper").hide();
@@ -58,7 +64,7 @@ function ViewController() {
         $("#infoButton").show();
         $("#homeScreenButtons").show();
         $("#refresh").trigger("click");
-        
+
     }
 
     /*
@@ -81,10 +87,10 @@ function ViewController() {
         //NEW
         mainController.listeners.initShotListeners();
         mainController.boardController.setCurrentGame(game);
-        if(game.yourTurn){
+        if (game.yourTurn) {
             self.showSuccess("Turn: Yours");
-        }else{
-            self.showError("Turn: "+game.enemyName);
+        } else {
+            self.showError("Turn: " + game.enemyName);
         }
 
     }
@@ -170,7 +176,7 @@ Draw allied gamefield
     };
 
 
- 
+
     //END TABLES
 
 
@@ -311,9 +317,9 @@ Draw allied gamefield
             }
         }
     }
-       /*
-    draw ship in allied field
-    */
+    /*
+ draw ship in allied field
+ */
     self.drawAlliedShip = function (ship) {
 
         if (ship.isVertical) {

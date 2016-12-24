@@ -3,7 +3,8 @@ function SocketController() {
     
     self.initialize = function () {
 
-        var server = 'https://zeeslagavans.herokuapp.com/';
+        var server = baseurl;
+        
         var options = {
             query: "token=" + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImIuYnJvdXdlckBzdHVkZW50LmF2YW5zLm5sIg.Je0wnMvxSEHa1v_NJCGjivIBJ4OrOujaWKcHjsStSa8"
         };
@@ -40,7 +41,7 @@ function SocketController() {
     self.onShot = function (shot) {
         if (mainController.state == "INGAME") {
             //Check if shot was placed in currently open game/not placed by the player himself 
-            if (shot.gameId == mainController.boardController.getCurrentGame()._id && shot.user != "b.brouwer@student.avans.nl") {
+            if (shot.gameId == mainController.boardController.getCurrentGame()._id && shot.user != user) {
 
                 if (shot.result == "WINNER") {
                     mainController.apiController.getGameByID(shot.gameId);
@@ -54,16 +55,18 @@ function SocketController() {
         }
 
         self.onTurn = function (turn) {
-            
+             console.log(turn);
             //Check if there is a current game
             if (mainController.boardController.getCurrentGame() != 0) {
                 
                 //is the turn update not in this current and is it not the enemies turn? then message the player regarding the turn
                 if (mainController.boardController.getCurrentGame()._id == turn.gameId) {
-                    if (turn.turn == "b.brouwer@student.avans.nl") {
+                    if (turn.turn == user) {
                         mainController.viewController.showSuccess("Turn: Yours.")
+                          mainController.apiController.getGameByID(turn.gameId);
                     } else {
                         mainController.viewController.showError("Turn: " + turn.turn);
+                          mainController.apiController.getGameByID(turn.gameId);
                     }
                 }
 
