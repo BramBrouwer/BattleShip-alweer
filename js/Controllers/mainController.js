@@ -1,4 +1,7 @@
 //maincontroller
+
+//TODO is setstate necessary?
+
 function MainController() {
 	//variabelen
 	var self = this;
@@ -12,9 +15,10 @@ function MainController() {
 	this.boardController = new BoardController();
 	this.socketController = new SocketController();
 	this.audioController = new AudioController();
+	this.listeners = new Listeners();
+	
 	this.initialize = function () {
 		self.apiController.getUserGames();
-
 	}
 
 	self.getState = function(){

@@ -13,7 +13,7 @@ function AudioController() {
     self.boom = function () {
         au_boom.play();
     }
-
+    //Putting a delay between both of these so it doesnt "collide" with the boom/splash sound
     self.victory = function () {
         setTimeout(function(){ au_victory.play();}, 2000);
     }

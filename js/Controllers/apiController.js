@@ -153,8 +153,6 @@ Het is alleen mogelijk gegevens op te halen van een game waar je zelf aan deel n
         $.ajax({
             url: baseurl + "games/" + inputID + "/gameboards" + accesstoken,
             success: function (result) {
-                console.log(result);
-
                 if (result.error != null) {
                     mainContoller.viewController.showError("Error: Something went wrong while posting ships to API, check console for more info.");
                     return false;

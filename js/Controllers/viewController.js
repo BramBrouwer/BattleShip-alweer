@@ -34,7 +34,7 @@ function ViewController() {
         //show gameField
         self.drawSetupField();
         self.showInfo("Ready for setup");
-        self.setupListeners();
+        mainController.listeners.initSetupListeners();
     }
 
     /*
@@ -78,7 +78,8 @@ function ViewController() {
         self.drawEnemyField(game);
         self.drawEnemyfieldShots(game);
         self.drawAlliedfieldShots(game);
-        self.gameListeners();
+        //NEW
+        mainController.listeners.initShotListeners();
         mainController.boardController.setCurrentGame(game);
         if(game.yourTurn){
             self.showSuccess("Turn: Yours");
@@ -169,31 +170,7 @@ Draw allied gamefield
     };
 
 
-    /*
-    draw ship in allied field
-    */
-    self.drawAlliedShip = function (ship) {
-
-        if (ship.isVertical) {
-
-            //colour the cells (if not occupied or outside field)
-            for (var i = 0; i < ship.length; i++) {
-                var curCell = $("#" + ship.startCell.x + (ship.startCell.y + i));
-                curCell.css("background-color", "Cyan");
-                var data = curCell.data('field');
-                data.state = "occupied";
-            }
-        } else {
-            //get alpha index of x
-            var xIndex = self.getAlphaIndex(ship.startCell.x);
-            for (var i = 0; i < ship.length; i++) {
-                var curCell = $("#" + alpha[xIndex + i] + (ship.startCell.y));
-                curCell.css("background-color", "Cyan");
-                var data = curCell.data('field');
-                data.state = "occupied";
-            }
-        }
-    }
+ 
     //END TABLES
 
 
@@ -231,17 +208,12 @@ Draw allied gamefield
     //END SHOTS
 
 
-
-
-
-
-
-    //CELLS
+    //SHIPS
 
     /*
     Update cells on mousehover to show currently selected ship
     */
-    self.onHover = function (cell) {
+    self.drawSelectedShip = function (cell) {
 
         var data = cell.data('field');
         var selectedShip = mainController.shipController.getSelectedShip();
@@ -287,7 +259,7 @@ Draw allied gamefield
     /*
     Update cells on mouseleave
     */
-    self.onMouseLeave = function (cell) {
+    self.redrawSelectedShip = function (cell) {
 
         var data = cell.data('field');
         var selectedShip = mainController.shipController.getSelectedShip();
@@ -334,45 +306,38 @@ Draw allied gamefield
             }
         }
     }
+       /*
+    draw ship in allied field
+    */
+    self.drawAlliedShip = function (ship) {
 
-    //END CELLS
+        if (ship.isVertical) {
+
+            //colour the cells (if not occupied or outside field)
+            for (var i = 0; i < ship.length; i++) {
+                var curCell = $("#" + ship.startCell.x + (ship.startCell.y + i));
+                curCell.css("background-color", "Cyan");
+                var data = curCell.data('field');
+                data.state = "occupied";
+            }
+        } else {
+            //get alpha index of x
+            var xIndex = self.getAlphaIndex(ship.startCell.x);
+            for (var i = 0; i < ship.length; i++) {
+                var curCell = $("#" + alpha[xIndex + i] + (ship.startCell.y));
+                curCell.css("background-color", "Cyan");
+                var data = curCell.data('field');
+                data.state = "occupied";
+            }
+        }
+    }
+
+    //END SHIPS
 
 
     //UTILITY
 
-    self.setupListeners = function () {
-
-        $(".setuptd").hover(function () {
-            var td = $(this);
-            self.onHover(td);
-        });
-
-        $(".setuptd").mouseleave(function () {
-            var td = $(this);
-            self.onMouseLeave(td);
-        });
-
-        $(".setuptd").click(function () {
-            console.log("SetupCell Clicked");
-            var td = $(this);
-            mainController.shipController.onMouseClick(td);
-        });
-    }
-
-    //add click listener to enemytd cells for placing shots
-    self.gameListeners = function () {
-        $(".enemytd").click(function () {
-            var td = $(this);
-            mainController.boardController.enemytdClick(td);
-        });
-
-        $(".enemytd").hover(function () {
-            var td = $(this);
-            mainController.boardController.enemytdHover(td);
-        });
-    };
-
-
+   
 
     self.getAlphaIndex = function (x) {
         //get alpha index of x
