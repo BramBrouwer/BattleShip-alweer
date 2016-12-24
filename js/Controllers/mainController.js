@@ -1,9 +1,8 @@
 //maincontroller
 
-//TODO is setstate necessary?
-
 function MainController() {
-	//variabelen
+	
+	
 	var self = this;
 	var state = "HOME";
 

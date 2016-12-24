@@ -175,6 +175,9 @@ Draw allied gamefield
 
 
     // SHOTS
+    /*
+    Draw Shots placed in the enemy field
+    */
     self.drawEnemyfieldShots = function (game) {
         var shots = game.enemyGameboard.shots;
 
@@ -193,7 +196,9 @@ Draw allied gamefield
 
 
     }
-
+    /*
+    Draw Shots placed in the allied field
+    */
     self.drawAlliedfieldShots = function (game) {
         var shots = game.myGameboard.shots;
 
@@ -336,9 +341,6 @@ Draw allied gamefield
 
 
     //UTILITY
-
-   
-
     self.getAlphaIndex = function (x) {
         //get alpha index of x
         var xIndex = 0;

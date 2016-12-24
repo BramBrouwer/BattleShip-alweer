@@ -79,12 +79,9 @@ function BoardController() {
         return game;
     }
 
-
-
     self.showConfirmButton = function () {
         $("#gs_confirmButton").show();
     }
-
 
     self.showPlaceShotButton = function (data) {
         $("#infoButton").hide();
