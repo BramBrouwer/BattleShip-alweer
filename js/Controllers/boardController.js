@@ -13,6 +13,16 @@ function BoardController() {
     self.enemytdHover = function (td) {
         var data = td.data('field');
         self.showPlaceShotButton(data);
+        
+        if(!game.yourTurn){
+            $("#placeButton").text("Its not your turn!");
+            return;
+        }
+        
+        if (data.state == "touched") {
+             $("#placeButton").text("Cell was shot already");
+            return;
+        }
     }
 
     /*
@@ -21,12 +31,18 @@ function BoardController() {
     self.enemytdClick = function (td) {
         var data = td.data('field');
         selectedTarget = data;
-
-        var shotvalid = true;
-        if (selectedTarget.state == "touched") {
-            $("#gs_confirmButton").text("cell was shot already!");
+        
+        
+        if(!game.yourTurn){
+            $("#placeButton").text("Its not your turn!");
             return;
         }
+        
+        if (selectedTarget.state == "touched") {
+             $("#placeButton").text("Cell was shot already");
+            return;
+        }
+        
         $("#gs_confirmButton").text("Confirm : " + data.x + "," + data.y)
         self.showConfirmButton();
     }

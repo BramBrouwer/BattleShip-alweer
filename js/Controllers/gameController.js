@@ -27,7 +27,7 @@ function GameController() {
             var listItem = $('<li>');
             var anchor = $('<a>');
             listItem.append(anchor);
-            anchor.text(this.gameID + "- You VS. " + this.enemyName + " - " + this.gameStatus);
+            anchor.text(this.enemyName + " - " + this.gameStatus);
             anchor.css("font-weight", "bold");
 
 
